@@ -174,7 +174,7 @@ describe('% del día', () => {
       prepare(spk, [goal(spk, 3, 'week', '2026-10-01')], [], []),
       prepare(fiesta, [], [], [log(fiesta, TODAY)]),
     ];
-    expect(daySummary(all, TODAY, TODAY)).toEqual({ done: 1, total: 2, pct: 50, perfect: false });
+    expect(daySummary(all, TODAY, TODAY)).toEqual({ done: 1, partial: 1, total: 2, pct: 50, perfect: false });
   });
 
   it('un hábito en pausa no entra en la cuenta', () => {
@@ -184,7 +184,7 @@ describe('% del día', () => {
       prepare(agua, [goal(agua, 2000, 'day', '2026-10-01')], [pause(agua, TODAY, null)], []),
       prepare(anki, [goal(anki, 30, 'day', '2026-10-01')], [], [log(anki, TODAY, null, 30)]),
     ];
-    expect(daySummary(all, TODAY, TODAY)).toEqual({ done: 1, total: 1, pct: 100, perfect: true });
+    expect(daySummary(all, TODAY, TODAY)).toEqual({ done: 1, partial: 0, total: 1, pct: 100, perfect: true });
   });
 });
 

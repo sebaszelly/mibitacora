@@ -1,0 +1,124 @@
+/*
+ * Tokens de la dirección Almanaque. Todo color, tamaño, radio y tiempo de la
+ * app sale de aquí. DESIGN.md explica cada decisión.
+ */
+@font-face {
+  font-family: 'Archivo Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url('@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2') format('woff2-variations');
+}
+
+:root {
+  /* Color · claro: papel neutro, tinta, un azul de imprenta */
+  --bg: #f6f6f2;
+  --surface: #ffffff;
+  --ink: #101216;
+  --muted: #555b66;
+  --rule: #d4d5ce;
+  --track: #dcddd6;
+  --accent: #1e3ec8;
+  --accent-ink: #ffffff;
+  --accent-soft: #e4e8f8;
+  --ok: #1f7a4a;
+  --warn: #a8650a;
+  --bad: #b23a2b;
+  --scrim: rgb(16 18 22 / 0.45);
+
+  /* Categorías: tonos apagados, nunca un arcoíris */
+  --cat-salud: #3f6b52;
+  --cat-estudio: #44597f;
+  --cat-social: #86633a;
+  --cat-trabajo: #55606b;
+  --cat-personal: #76557a;
+  --cat-privado: #5b5e63;
+
+  /* Tipografía: Archivo en dos voces (texto a ancho normal, cifras condensadas) */
+  --font: 'Archivo Variable', system-ui, -apple-system, sans-serif;
+  --w-num: 62%;
+  --w-fig: 68%;
+  --t-xs: 0.75rem;
+  --t-sm: 0.8125rem;
+  --t-base: 1rem;
+  --t-md: 1.125rem;
+  --t-lg: 1.375rem;
+  --t-fig: 1.5rem;
+  --t-xl: 2.125rem;
+  --t-day: 5.75rem;
+
+  /* Espaciado */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s8: 32px;
+  --gl: max(18px, env(safe-area-inset-left, 0px));
+  --gr: max(18px, env(safe-area-inset-right, 0px));
+  --tabbar-h: 62px;
+
+  /* Radios: casi rectos, como una hoja impresa */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-sheet: 14px;
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press: 130ms;
+  --dur-fast: 160ms;
+  --dur-bar: 260ms;
+  --dur-fill: 280ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #131110;
+    --surface: #1d1a18;
+    --ink: #f0ede7;
+    --muted: #a8a297;
+    --rule: #35312d;
+    --track: #3a3632;
+    --accent: #93a6ff;
+    --accent-ink: #0b1238;
+    --accent-soft: #23263d;
+    --ok: #5cc98f;
+    --warn: #e0a545;
+    --bad: #ee7a68;
+    --scrim: rgb(0 0 0 / 0.6);
+    --cat-salud: #8dbf9f;
+    --cat-estudio: #9db1d8;
+    --cat-social: #d2ae7e;
+    --cat-trabajo: #a9b3bd;
+    --cat-personal: #c5a3c9;
+    --cat-privado: #a8a297;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #131110;
+  --surface: #1d1a18;
+  --ink: #f0ede7;
+  --muted: #a8a297;
+  --rule: #35312d;
+  --track: #3a3632;
+  --accent: #93a6ff;
+  --accent-ink: #0b1238;
+  --accent-soft: #23263d;
+  --ok: #5cc98f;
+  --warn: #e0a545;
+  --bad: #ee7a68;
+  --scrim: rgb(0 0 0 / 0.6);
+  --cat-salud: #8dbf9f;
+  --cat-estudio: #9db1d8;
+  --cat-social: #d2ae7e;
+  --cat-trabajo: #a9b3bd;
+  --cat-personal: #c5a3c9;
+  --cat-privado: #a8a297;
+  color-scheme: dark;
+}

@@ -48,7 +48,21 @@ export async function ensureSeeded(db: BitacoraDB = defaultDb, start: DateStr = 
     await db.habits.bulkAdd(habits);
     await db.habit_goals.bulkAdd(goals);
     await db.muscle_groups.bulkAdd(groups);
+    await setMeta(db, 'installed_at', new Date().toISOString());
     await setMeta(db, 'seeded', true);
   });
   return true;
+}
+
+/**
+ * Ajustes para instalaciones que arrancaron con una versión anterior.
+ * Cada uno corre una sola vez y no toca datos del usuario.
+ */
+export async function migrate(db: BitacoraDB = defaultDb): Promise<void> {
+  if (!(await getMeta<string>(db, 'installed_at'))) await setMeta(db, 'installed_at', new Date().toISOString());
+  if (!(await getMeta<boolean>(db, 'migr_anki_quick'))) {
+    const anki = (await db.habits.toArray()).find((h) => h.name === 'Anki' && h.type === 'duration' && h.quick_buttons.length === 0);
+    if (anki) await db.habits.put({ ...anki, quick_buttons: [10, 15, 30], updated_at: new Date().toISOString() });
+    await setMeta(db, 'migr_anki_quick', true);
+  }
 }

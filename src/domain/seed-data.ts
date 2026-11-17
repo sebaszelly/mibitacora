@@ -46,6 +46,7 @@ export const SEED_HABITS: SeedHabit[] = [
     type: 'duration',
     unit: 'min',
     goal: { target_value: 30, period: 'day', direction: 'min' },
+    quick_buttons: [10, 15, 30],
   },
   {
     name: 'Practicar speaking',

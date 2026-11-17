@@ -194,6 +194,8 @@ export function evalOn(data: HabitData, date: DateStr, today: DateStr): PeriodRe
 
 export interface DaySummary {
   done: number;
+  /** Hábitos con avance que aún no llegan a la meta. */
+  partial: number;
   total: number;
   /** null cuando ese día no había nada programado. */
   pct: number | null;
@@ -206,6 +208,7 @@ export interface DaySummary {
  */
 export function daySummary(all: HabitData[], date: DateStr, today: DateStr): DaySummary {
   let done = 0;
+  let partial = 0;
   let total = 0;
   for (const data of all) {
     if (goalKindOn(data, date) !== 'day') continue;
@@ -213,8 +216,9 @@ export function daySummary(all: HabitData[], date: DateStr, today: DateStr): Day
     if (r.status === 'untracked' || r.status === 'unscheduled' || r.status === 'paused') continue;
     total += 1;
     if (r.status === 'done') done += 1;
+    else if (r.status === 'partial') partial += 1;
   }
-  return { done, total, pct: total === 0 ? null : Math.round((done / total) * 100), perfect: total > 0 && done === total };
+  return { done, partial, total, pct: total === 0 ? null : Math.round((done / total) * 100), perfect: total > 0 && done === total };
 }
 
 export interface Completion {
@@ -275,4 +279,15 @@ export function streak(data: HabitData, today: DateStr): Streak {
     p = periodOf(unit, addDays(p.end, 1));
   }
   return { current, best, unit };
+}
+
+/** Fase con que se dibuja un día: lleno, medio, vacío, pendiente, futuro o sin nada programado. */
+export type DayPhase = 'full' | 'half' | 'none' | 'pending' | 'future' | 'off';
+
+export function dayPhase(summary: DaySummary, date: DateStr, today: DateStr): DayPhase {
+  if (date > today) return 'future';
+  if (summary.total === 0) return 'off';
+  if (summary.perfect) return 'full';
+  if (summary.done > 0 || summary.partial > 0) return 'half';
+  return date === today ? 'pending' : 'none';
 }
