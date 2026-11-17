@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { evalPeriod, prepare } from '../domain/rules';
-import { BackupError, exportBackup, importBackup, parseBackup } from './backup';
+import { BackupError, exportBackup, importBackup, markBackupDone, parseBackup } from './backup';
 import { BitacoraDB, DATA_TABLES } from './db';
 import { getMeta, logHabit, restore, setGoal, softDelete } from './repo';
 import { ensureSeeded } from './seed';
@@ -100,8 +100,11 @@ describe('respaldo', () => {
     await setGoal(agua.id, { target_value: 2500, period: 'day', direction: 'min' }, '2026-11-17', db);
 
     const before = await dump(db);
-    const json = JSON.stringify(await exportBackup(db));
-    expect(await getMeta<string>(db, 'last_backup_at')).toBeTruthy();
+    const backup = await exportBackup(db);
+    const json = JSON.stringify(backup);
+    expect(await getMeta<string>(db, 'last_backup_at')).toBeUndefined();
+    await markBackupDone(backup, db);
+    expect(await getMeta<string>(db, 'last_backup_at')).toBe(backup.exported_at);
 
     await db.delete();
     const fresh = new BitacoraDB(`test-${++n}`);

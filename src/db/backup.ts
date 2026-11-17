@@ -22,9 +22,12 @@ export async function exportBackup(db: BitacoraDB = defaultDb): Promise<Backup> 
   await db.transaction('r', DATA_TABLES.map((t) => db.table(t)), async () => {
     for (const name of DATA_TABLES) tables[name] = await db.table(name).orderBy('id').toArray();
   });
-  const exported_at = new Date().toISOString();
-  await setMeta(db, 'last_backup_at', exported_at);
-  return { app: BACKUP_APP, format: BACKUP_FORMAT, exported_at, user_id, tables };
+  return { app: BACKUP_APP, format: BACKUP_FORMAT, exported_at: new Date().toISOString(), user_id, tables };
+}
+
+/** Anota que el respaldo llegó a manos del usuario. Se llama solo cuando lo guardó, no si canceló. */
+export async function markBackupDone(backup: Backup, db: BitacoraDB = defaultDb): Promise<void> {
+  await setMeta(db, 'last_backup_at', backup.exported_at);
 }
 
 export class BackupError extends Error {}

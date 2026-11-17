@@ -41,7 +41,7 @@ Cada hábito pertenece a uno de seis tipos. El tipo define cómo se registra y c
 | --- | --- | --- | --- |
 | Sí/No | Un toque | Marcado ese día | Tender la cama |
 | Cantidad con meta | Botones rápidos + valor libre, se acumula en el día | Suma del día ≥ meta | Agua 2000 ml |
-| Duración | Temporizador o minutos a mano | Minutos del día (o semana) ≥ meta | Anki 30 min |
+| Duración | Minutos a mano (botones rápidos + valor libre) | Minutos del día (o semana) ≥ meta | Anki 30 min |
 | Frecuencia por periodo | Un toque por vez (con duración o nota opcional) | Veces en la semana o mes ≥ meta | Speaking 3 veces a la semana |
 | Evento (solo registro) | Un toque, con nota, lugar o gasto opcionales | No tiene meta; solo cuenta | Salidas de fiesta |
 | Medición | Un valor numérico con fecha | No tiene meta; se ve la tendencia (meta objetivo opcional) | Peso corporal |
@@ -62,7 +62,7 @@ La app arranca con estos registros ya creados. Todos se pueden editar, pausar o 
 | Hábito | Categoría | Tipo | Meta | Detalle de registro |
 | --- | --- | --- | --- | --- |
 | Tomar agua | Salud | Cantidad con meta | 2000 ml al día | Botones +250, +500 y +750 ml; valor libre; deshacer el último |
-| Anki | Estudio / Inglés | Duración | Mínimo 30 min al día | Temporizador iniciar/pausar/terminar o minutos a mano; los minutos extra también se guardan |
+| Anki | Estudio / Inglés | Duración | Mínimo 30 min al día | Minutos anotados a mano (sin cronómetro); los minutos extra también se guardan |
 | Practicar speaking | Estudio / Inglés | Frecuencia | Al menos 3 veces a la semana | Duración y nota opcionales (con quién, tema) |
 | Película en inglés | Estudio / Inglés | Frecuencia | 1 a la semana | Título y calificación de 1 a 5 opcionales |
 | Gimnasio | Salud | Módulo gym (ver abajo) | A definir en la app | Series por grupo muscular; ejercicio, peso y repeticiones opcionales |
@@ -254,3 +254,16 @@ Conviene construirla en tres fases para tener algo usable en la primera semana.
 - Los registros privados no aparecen en Reportes sin el PIN.
 - Exportar JSON, borrar los datos e importar ese JSON deja todo igual.
 - La interfaz pasa review-animations de Emil y la auditoría de Impeccable sin problemas graves.
+
+## Decisiones acordadas durante la construcción
+
+Acordadas con Sebas el 17 nov 2026. Donde contradicen el texto de arriba, mandan estas.
+
+- **Sin cronómetro.** Anki y los demás hábitos de duración se registran anotando los minutos a mano.
+- **% del día cumplido:** solo cuentan los hábitos con meta diaria. Los semanales muestran su avance aparte ("1 de 3 esta semana") y se evalúan al cerrar la semana.
+- **PIN:** es un bloqueo de pantalla, no un cifrado. El respaldo JSON incluye los registros privados en claro y no incluye el PIN. Si se olvida, se recupera borrando los datos e importando un respaldo.
+- **Gráficos:** en la fase 1 se dibujan a medida en SVG, sin Recharts ni visx. Se revisa en la fase 2.
+- **Íconos:** dibujados, de un solo trazo y peso. No se usan emojis como íconos.
+- **Fuentes e íconos servidos desde el propio sitio**, sin Google Fonts ni otros servidores.
+- **Reglas de cálculo que faltaban:** una semana o un mes se evalúa con la meta vigente en su último día; un periodo empezado o terminado a medias solo cuenta si se cumplió; el día o la semana en curso nunca se muestra como fallado; Gimnasio solo cuenta sesiones hasta que se le ponga meta.
+- **Dispositivo de prueba:** iPhone 17 con iOS 26.
